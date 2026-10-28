@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Daily cash closing checklist</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f7f6;--card:#fff;--ink:#15201c;--mute:#5b6a63;--line:#dce3df;--acc:#0f766e;--accink:#fff;--okbg:#dcf5e7;--ok:#14663a;--badbg:#fde4e2;--bad:#a4262c;--warnbg:#fdf0d0;--warn:#8a5a00}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1412;--card:#171c19;--ink:#e8efeb;--mute:#97a69e;--line:#29322d;--acc:#2dd4bf;--accink:#06201c;--okbg:#12301f;--ok:#7be0a4;--badbg:#3a1a1b;--bad:#ff9a9a;--warnbg:#3a2d0c;--warn:#f4c45a}}
+:root[data-theme="dark"]{--bg:#0f1412;--card:#171c19;--ink:#e8efeb;--mute:#97a69e;--line:#29322d;--acc:#2dd4bf;--accink:#06201c;--okbg:#12301f;--ok:#7be0a4;--badbg:#3a1a1b;--bad:#ff9a9a;--warnbg:#3a2d0c;--warn:#f4c45a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.app{max-width:1000px;margin:0 auto;padding:24px 16px 56px}
+h1{font-size:clamp(1.6rem,4vw,2.1rem);margin:0 0 4px;line-height:1.15}
+h2{font-size:1.1rem;margin:0 0 14px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.sub{color:var(--mute);margin:0 0 22px}
+.grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;align-items:start}
+.col{display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+label{display:block;font-size:.88rem;font-weight:600;margin-bottom:12px}
+input,select,textarea{display:block;width:100%;margin-top:5px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--acc);outline-offset:1px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+ul{list-style:none;margin:0;padding:0}
+.it label{display:flex;gap:12px;align-items:center;font-weight:400;font-size:1rem;margin:0;padding:11px 0;border-top:1px solid var(--line);cursor:pointer}
+.it:first-child label{border-top:0}
+.it input{width:22px;height:22px;margin:0;accent-color:var(--acc);flex:none}
+.it input:checked+span{color:var(--mute);text-decoration:line-through}
+.bar{height:8px;background:var(--bg);border:1px solid var(--line);border-radius:99px;overflow:hidden;margin-bottom:8px}
+.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .2s}
+.exp{display:grid;grid-template-columns:1fr 110px 40px;gap:8px;margin-bottom:8px}
+.exp input{margin:0}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:10px 16px;font:600 .95rem system-ui,sans-serif;cursor:pointer}
+.btn:hover{border-color:var(--acc)}
+.btn.pri{background:var(--acc);color:var(--accink);border-color:var(--acc)}
+.btn.sm{padding:6px 10px;font-size:.85rem}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.num{font-variant-numeric:tabular-nums}
+.sum{display:flex;justify-content:space-between;padding:6px 0;color:var(--mute)}
+.sum.t{color:var(--ink);font-weight:700;border-top:1px solid var(--line);margin-top:4px;padding-top:10px}
+.res{text-align:center;margin-top:14px;padding:18px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.res b{display:block;font-size:2.2rem;line-height:1.15;font-variant-numeric:tabular-nums}
+.res.ok{background:var(--okbg);color:var(--ok);border-color:transparent}
+.res.bad{background:var(--badbg);color:var(--bad);border-color:transparent}
+.res.warn{background:var(--warnbg);color:var(--warn);border-color:transparent}
+#msg{min-height:1.5em;margin:12px 0 0;font-size:.9rem;color:var(--mute)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{text-align:left;padding:9px 6px;border-top:1px solid var(--line)}
+th{color:var(--mute);font-weight:600;border-top:0}
+.wrap{overflow-x:auto}
+.empty{color:var(--mute);margin:0}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.exp{grid-template-columns:1fr 96px 40px}}
+@media print{.noprint{display:none!important}body{background:#fff;color:#000}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Daily cash closing</h1>
+  <p class="sub">Work through the checklist, enter your cash figures, and see the difference before you leave.</p>
+  <div class="grid">
+    <div class="col">
+      <section class="card">
+        <h2>Details</h2>
+        <div class="two"><label>Date<input type="date" id="date"></label><label>Currency<select id="cur"><option>$</option><option>€</option><option>£</option><option>₹</option></select></label></div>
+        <label>Closed by<input id="cashier" placeholder="Name or initials" autocomplete="off"></label>
+        <label style="margin:0">Notes<textarea id="notes" rows="2" placeholder="Anything unusual today"></textarea></label>
+      </section>
+      <section class="card">
+        <h2>Closing checklist <span class="num" id="prog"></span></h2>
+        <div class="bar"><i id="pb"></i></div>
+        <ul id="items"></ul>
+      </section>
+      <section class="card">
+        <h2>Expenses and paid-outs <span class="num" id="expt"></span></h2>
+        <div id="exps"></div>
+        <button class="btn sm noprint" id="addexp" type="button">Add expense</button>
+      </section>
+    </div>
+    <div class="col">
+      <section class="card">
+        <h2>Cash</h2>
+        <label>Opening float<input id="float" type="number" inputmode="decimal" step="0.01" min="0" placeholder="0.00"></label>
+        <label>Cash sales (from the register report)<input id="sales" type="number" inputmode="decimal" step="0.01" min="0" placeholder="0.00"></label>
+        <label style="margin:0">Counted cash in the drawer<input id="counted" type="number" inputmode="decimal" step="0.01" min="0" placeholder="0.00"></label>
+      </section>
+      <section class="card">
+        <h2>Result</h2>
+        <div id="sums"></div>
+        <div class="res" id="res"></div>
+        <div class="row noprint" style="margin-top:16px">
+          <button class="btn pri" id="save" type="button">Save closing</button>
+          <button class="btn" id="print" type="button">Print</button>
+          <button class="btn" id="reset" type="button">Start new day</button>
+        </div>
+        <p id="msg" role="status"></p>
+      </section>
+    </div>
+  </div>
+  <section class="card" style="margin-top:16px">
+    <h2>Saved closings</h2>
+    <div id="hist"></div>
+  </section>
+</div>
+<script>
+const ITEMS=['Print the end-of-day sales report','Count all cash in the drawer','Record every paid-out and expense','Check card and other payments against the report','Set aside tomorrow’s opening float','Move excess cash to the safe or deposit bag','Lock the drawer and the safe'];
+const KEY='cashclosing.v1',$=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())};
+const blank=()=>({date:today(),cashier:'',cur:'$',float:'',sales:'',counted:'',notes:'',checks:ITEMS.map(()=>false),exp:[{d:'',a:''}]});
+let D,H=[];
+try{D=JSON.parse(localStorage.getItem(KEY+'.draft'))}catch(e){D=null}
+try{H=JSON.parse(localStorage.getItem(KEY+'.history'))||[]}catch(e){H=[]}
+if(!D||!Array.isArray(D.checks)||D.checks.length!==ITEMS.length||!Array.isArray(D.exp))D=blank();
+const store=(k,v)=>{try{localStorage.setItem(KEY+'.'+k,JSON.stringify(v))}catch(e){}};
+const n=v=>{const x=parseFloat(v);return isNaN(x)?0:x};
+const money=(x,sign)=>(sign&&x>0.004?'+':x<-0.004?'−':'')+D.cur+Math.abs(x).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+function calc(){
+  const exp=D.exp.reduce((a,e)=>a+n(e.a),0),expected=n(D.float)+n(D.sales)-exp;
+  return{exp,expected,has:D.counted!=='',diff:n(D.counted)-expected};
+}
+function paint(){
+  const c=calc(),done=D.checks.filter(Boolean).length;
+  $('prog').textContent=done+' of '+ITEMS.length;
+  $('pb').style.width=done/ITEMS.length*100+'%';
+  $('expt').textContent=money(c.exp);
+  $('sums').innerHTML=`<div class="sum"><span>Opening float</span><span class="num">${money(n(D.float))}</span></div><div class="sum"><span>Cash sales</span><span class="num">${money(n(D.sales))}</span></div><div class="sum"><span>Expenses</span><span class="num">${c.exp?'−':''}${money(c.exp)}</span></div><div class="sum t"><span>Expected cash</span><span class="num">${money(c.expected)}</span></div><div class="sum"><span>Counted cash</span><span class="num">${c.has?money(n(D.counted)):'Not entered'}</span></div>`;
+  const r=$('res');
+  if(!c.has){r.className='res';r.innerHTML='Enter the counted cash to see the difference.';}
+  else if(Math.abs(c.diff)<0.005){r.className='res ok';r.innerHTML='<b>'+money(0)+'</b>Balanced. The drawer matches the report.';}
+  else if(c.diff<0){r.className='res bad';r.innerHTML='<b>'+money(c.diff,1)+'</b>Short by '+money(-c.diff)+'. Recount and recheck expenses.';}
+  else{r.className='res warn';r.innerHTML='<b>'+money(c.diff,1)+'</b>Over by '+money(c.diff)+'. Check for missing sales or unrecorded refunds.';}
+  store('draft',D);
+}
+function drawItems(){
+  $('items').innerHTML=ITEMS.map((t,i)=>`<li class="it"><label><input type="checkbox" data-c="${i}"${D.checks[i]?' checked':''}><span>${t}</span></label></li>`).join('');
+}
+function drawExp(){
+  $('exps').innerHTML=D.exp.map((e,i)=>`<div class="exp"><input data-i="${i}" data-k="d" value="${esc(e.d)}" placeholder="What was it for?" aria-label="Expense description"><input data-i="${i}" data-k="a" type="number" inputmode="decimal" step="0.01" min="0" value="${esc(e.a)}" placeholder="0.00" aria-label="Expense amount"><button class="btn sm noprint" data-rm="${i}" type="button" aria-label="Remove expense">✕</button></div>`).join('')||'<p class="empty">No expenses recorded.</p>';
+}
+function drawHist(){
+  $('hist').innerHTML=H.length?`<div class="wrap"><table><thead><tr><th>Date</th><th>By</th><th>Expected</th><th>Counted</th><th>Difference</th><th>Checklist</th><th></th></tr></thead><tbody>${H.map(h=>`<tr><td>${esc(h.date)}</td><td>${esc(h.by||'–')}</td><td class="num">${esc(h.cur)}${h.expected.toFixed(2)}</td><td class="num">${esc(h.cur)}${h.counted.toFixed(2)}</td><td class="num"><b>${h.diff>0.004?'+':h.diff<-0.004?'−':''}${esc(h.cur)}${Math.abs(h.diff).toFixed(2)}</b></td><td>${h.done} of ${h.total}</td><td><button class="btn sm noprint" data-del="${esc(h.date)}" type="button" aria-label="Delete closing for ${esc(h.date)}">Delete</button></td></tr>`).join('')}</tbody></table></div>`:'<p class="empty">No saved closings yet. Save one at the end of the day and it will appear here.</p>';
+}
+function fillFields(){['date','cashier','cur','float','sales','counted','notes'].forEach(k=>$(k).value=D[k]);}
+['date','cashier','cur','float','sales','counted','notes'].forEach(k=>$(k).addEventListener('input',e=>{D[k]=e.target.value;$('msg').textContent='';paint();}));
+document.addEventListener('change',e=>{if(e.target.dataset.c!==undefined){D.checks[+e.target.dataset.c]=e.target.checked;paint();}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.i!==undefined){D.exp[+t.dataset.i][t.dataset.k]=t.value;paint();}});
+document.addEventListener('click',e=>{
+  const rm=e.target.closest('[data-rm]'),del=e.target.closest('[data-del]');
+  if(rm){D.exp.splice(+rm.dataset.rm,1);drawExp();paint();}
+  if(del){H=H.filter(h=>h.date!==del.dataset.del);store('history',H);drawHist();}
+});
+$('addexp').onclick=()=>{D.exp.push({d:'',a:''});drawExp();paint();const f=$('exps').querySelectorAll('input[data-k="d"]');f[f.length-1].focus();};
+$('save').onclick=()=>{
+  if(D.counted===''||!D.date){$('msg').textContent='Enter the date and the counted cash before saving.';return;}
+  const c=calc(),done=D.checks.filter(Boolean).length;
+  H=H.filter(h=>h.date!==D.date);
+  H.push({date:D.date,by:D.cashier.trim(),cur:D.cur,expected:c.expected,counted:n(D.counted),diff:c.diff,expenses:c.exp,done,total:ITEMS.length,notes:D.notes});
+  H.sort((a,b)=>b.date.localeCompare(a.date));store('history',H);drawHist();
+  $('msg').textContent='Closing saved for '+D.date+(done<ITEMS.length?'. Note: '+(ITEMS.length-done)+' checklist item'+(ITEMS.length-done===1?' is':'s are')+' still unchecked.':'.');
+};
+$('print').onclick=()=>window.print();
+$('reset').onclick=()=>{if(confirm('Clear today’s entries and start a new day? Saved closings are kept.')){const cur=D.cur,by=D.cashier;D=blank();D.cur=cur;D.cashier=by;fillFields();drawItems();drawExp();paint();$('msg').textContent='';}};
+fillFields();drawItems();drawExp();drawHist();paint();
+</script>
+</body>
+</html>
